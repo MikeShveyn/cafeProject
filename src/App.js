@@ -1,22 +1,23 @@
-import {Route, Switch} from 'react-router-dom';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+
+import Container from "./components/ui/Layout/MainLayout";
+import Main from "./pages/Main/Main";
+import SignUp from "./pages/SignUp/SignUp";
+import Order from "./pages/Order/Order";
 
 function App() {
   return (
-    <div>Check</div>
-    // <Switch>
-    //   <Route path='/' exact>
-
-    //   </Route>
-
-    //   <Route path='/main' exact>
-
-    //   </Route>    
-
-    // </Switch>
+    <React.Fragment>
+      <Container>
+      <Routes>
+        <Route path="/" element={<Main />}></Route>
+        <Route path="/SignUp" element={<SignUp />}></Route>
+        <Route path="/Order" element={<Order />}></Route>
+      </Routes>
+      </Container>
+      </React.Fragment>
   );
 }
-
-// import {Link} from 'react-router-dom'
-// Used to navigate <Link to=''> , should be in  nav bar 
 
 export default App;

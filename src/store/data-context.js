@@ -2,16 +2,21 @@ import {createContext, useState} from 'react';
 
 const DataContext = createContext({
    data : [],
-   firebaseConfig,
+   user : null, 
+   firebaseConfig : null,
    addData : (newData) => {},
-   removeData: (id) => {}
+   removeData: (id) => {},
+   addUserData : (newUser) => {},
+   removeUserData: (id) => {}
 });
 
 export function DataContextProvider(props) {
-    const [state, setstate] = useState([]);
+    const [dataState, setData] = useState([]);
+    const [userState , setUser] = useState(null);
 
     const context = {
-        data : state,
+        data : dataState,
+        user: userState,
         firebaseConfig : {
             apiKey: "AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI",
             authDomain: "cafe-f0195.firebaseapp.com",
@@ -22,19 +27,29 @@ export function DataContextProvider(props) {
             appId: "1:323160095814:web:18b3004470a140feddde47"
           },
         addData : addDataHandler,
-        removeData: removeDataHandler
+        removeData: removeDataHandler,
+        addUserData : addUserHandler,
+        removeUserData: removeUserHandler
     };
-    // manage state (state for all components listening for changes )
+ 
     function addDataHandler(newData) {
-        setstate((prevData)=>{
+        setData((prevData)=>{
             return prevData.concat(newData);
         })
     }
 
     function removeDataHandler(id) {
-        setstate((prevData)=>{
+        setData((prevData)=>{
             return prevData.filter(id=>prevData.id !== id);
             });
+    }
+
+      function addUserHandler(newUser) {
+        setUser(newUser);
+    }
+
+    function removeUserHandler() {
+        setUser(null);
     }
 
 
