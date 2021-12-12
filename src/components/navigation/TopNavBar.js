@@ -1,12 +1,12 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import {React} from 'react';
 
 import  css from "./TopNavBar.module.css";
 
 function TopNavBar() {
   return (
     <header className={css.fixed}>
-      <div className={css.logoTitle}>CafeShop</div>
+      <div className={css.logoTitle}>Coffeen</div>
       <nav>
         <ul>
           <li>
