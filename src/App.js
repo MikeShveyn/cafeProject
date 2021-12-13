@@ -14,7 +14,7 @@ function App() {
       <Container>
         <Routes>
           <Route path="/" element={<Main />}></Route>
-          <Route path="/SignUp" element={<SignIn />}></Route>
+          <Route path="/SignIn" element={<SignIn />}></Route>
           <Route path="/Menu" element={<Menu />}></Route>
           <Route path="/Order" element={<Order />}></Route>
         </Routes>

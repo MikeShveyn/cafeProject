@@ -18,8 +18,10 @@ function Menu() {
 
   function getItems() {
     fetch(
-      context.firebaseConfig.databaseURL
-      ).then(async (response) => {
+      context.firebaseConfig.databaseURL+'/menuItems', {
+      mode:'no-cors'
+      })
+      .then(async (response) => {
         setIsLoading(false);
         const data = await response.json();
         const cleanData = [];
@@ -39,8 +41,9 @@ function Menu() {
   }
 
   function addItemHandler(data) {
-    fetch(context.firebaseConfig.databaseURL, {
+    fetch(context.firebaseConfig.databaseURL+'/menuItems', {
       method: "POST",
+      mode:'no-cors',
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
