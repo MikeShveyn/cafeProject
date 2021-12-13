@@ -20,7 +20,7 @@ export const DataContextProvider=(props)=>{
     const [userState , setUser] = useState(null);
     const [token,settoken]=useState();
 
-    const userIsLoggedIn=!!token;
+
     function addDataHandler(newData) {
         setData((prevData)=>{
             return prevData.concat(newData);
@@ -52,6 +52,8 @@ export const DataContextProvider=(props)=>{
     const context = {
         data : dataState,
         user: userState,
+        token: token,
+        isLoggedIn:userIsLoggedIn,
         firebaseConfig : {
             apiKey: "AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI",
             authDomain: "cafe-f0195.firebaseapp.com",
@@ -65,8 +67,6 @@ export const DataContextProvider=(props)=>{
         removeData: removeDataHandler,
         addUserData : addUserHandler,
         removeUserData: removeUserHandler,
-        token: token,
-        isLoggedIn:userIsLoggedIn,
         login:logInHadler,
         logout:logOutHadler
     };
