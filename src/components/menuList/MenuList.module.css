@@ -1,0 +1,18 @@
+.list {
+  width: 90%;
+  background-color: aquamarine;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  padding: 20px 0;
+}
+
+.title {
+  margin-top: 24px;
+  font-size: 32px;
+  letter-spacing: 3px;
+  font-weight: 500;
+}

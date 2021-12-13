@@ -1,0 +1,39 @@
+.container {
+  width: 250px;
+}
+
+.flex {
+  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 300px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.flex img {
+  height: 150px;
+  border-bottom: 1px solid aquamarine;
+  margin-bottom: 6px;
+}
+
+p {
+    margin-bottom: 4px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.descr {
+   width: 98%;
+   height: 80px;
+   overflow: hidden;
+   text-align: center;
+}

@@ -11,14 +11,14 @@ function App() {
   return (
     <React.Fragment>
       <Container>
-      <Routes>
-        <Route path="/" element={<Main />}></Route>
-        <Route path="/SignUp" element={<SignUp />}></Route>
-        <Route path="/Menu" element={<Menu />}></Route>
-        <Route path="/Order" element={<Order />}></Route>
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Main />}></Route>
+          <Route path="/SignUp" element={<SignUp />}></Route>
+          <Route path="/Menu" element={<Menu />}></Route>
+          <Route path="/Order" element={<Order />}></Route>
+        </Routes>
       </Container>
-      </React.Fragment>
+    </React.Fragment>
   );
 }
 

@@ -21,7 +21,7 @@ export function DataContextProvider(props) {
         firebaseConfig : {
             apiKey: "AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI",
             authDomain: "cafe-f0195.firebaseapp.com",
-            databaseURL: "https://cafe-f0195-default-rtdb.firebaseio.com",
+            databaseURL: "https://cafe-f0195-default-rtdb.firebaseio.com/menuItems.json",
             projectId: "cafe-f0195",
             storageBucket: "cafe-f0195.appspot.com",
             messagingSenderId: "323160095814",
