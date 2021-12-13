@@ -4,9 +4,9 @@
     left: 0;
     overflow: hidden;
     display: flex;
-    background: whitesmoke;
+    background: aliceblue;
     width: 100%;
-    height: 60px;
+    height: 80px;
     flex-direction: row;
     align-items: center;;
     justify-content: space-around;
@@ -17,6 +17,18 @@
 
 .logoTitle {
     width: 40%;
+}
+
+.logoTitle img {
+    width:20px;
+    height: 20px;
+    margin-right: 2px;
+}
+
+.logoTitle span {
+    font-weight: 500;
+    letter-spacing: 3px;
+    font-size: 19px;
 }
 
 ul {
