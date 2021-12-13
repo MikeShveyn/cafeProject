@@ -3,9 +3,10 @@ import { Route, Routes } from "react-router-dom";
 
 import Container from "./components/ui/Layout/MainLayout";
 import Main from "./pages/Main/Main";
-import SignUp from "./pages/SignUp/SignUp";
+import AuthPage from "./pages/SignUp/AuthPage";
 import Order from "./pages/Order/Order";
 import Menu from "./pages/Menu/Menu";
+import UserProfile  from "./pages/UserProfile/UserProfile";
 
 function App() {
   return (
@@ -13,9 +14,10 @@ function App() {
       <Container>
       <Routes>
         <Route path="/" element={<Main />}></Route>
-        <Route path="/SignUp" element={<SignUp />}></Route>
+        <Route path="/SignUp" element={<AuthPage />}></Route>
         <Route path="/Menu" element={<Menu />}></Route>
         <Route path="/Order" element={<Order />}></Route>
+        <Route path='/profile' element={<UserProfile/>}></Route>
       </Routes>
       </Container>
       </React.Fragment>

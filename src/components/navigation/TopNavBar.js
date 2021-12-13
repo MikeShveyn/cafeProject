@@ -21,7 +21,7 @@ function TopNavBar() {
             <Link to="/Order">Order</Link>
           </li>
           <li>
-            <Link to="/SignUp">Sign in</Link>
+            <Link to="/AuthPage">Sign in</Link>
           </li>
         </ul>
       </nav>
