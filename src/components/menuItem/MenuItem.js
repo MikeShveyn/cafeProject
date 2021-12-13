@@ -1,3 +1,4 @@
+import React from 'react';
 import css from "./MenuItem.module.css";
 import Card from "../ui/Card/Card";
 

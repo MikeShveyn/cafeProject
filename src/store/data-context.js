@@ -9,7 +9,7 @@ const DataContext = createContext({
    removeData: (id) => {},
    addUserData : (newUser) => {},
    removeUserData: (id) => {},
-   token:'',
+   token:null,
    isLoggedIn:false,
    login:(token)=>{},
    logout:()=>{}
@@ -19,7 +19,7 @@ export const DataContextProvider=(props)=>{
     const [dataState, setData] = useState([]);
     const [userState , setUser] = useState(null);
     const [token,settoken]=useState();
-
+    const userIsLoggedIn = !!token;
 
     function addDataHandler(newData) {
         setData((prevData)=>{

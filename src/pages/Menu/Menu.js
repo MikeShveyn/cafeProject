@@ -67,10 +67,10 @@ function Menu() {
     <React.Fragment>
       <AddMenuForm onAddItem={addItemHandler} />
       <MenuList title={"Hot Drinks"} items={loadedItems.filter((item)=>{
-        return item.type == 'hot';
+        return item.type === 'hot';
       })}/>
       <MenuList title={"Cold Drinks"} items={loadedItems.filter((item)=>{
-        return item.type == 'cold';
+        return item.type === 'cold';
       })}/>
     </React.Fragment>
   );

@@ -1,3 +1,4 @@
+import React from 'react';
 import css from './Card.module.css';
 
 function Card(props) {
