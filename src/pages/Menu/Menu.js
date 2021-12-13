@@ -18,14 +18,15 @@ function Menu() {
 
   function getItems() {
     fetch(
-      context.firebaseConfig.databaseURL+'/menuItems', {
-      mode:'no-cors'
-      })
-      .then(async (response) => {
-        setIsLoading(false);
-        const data = await response.json();
+      context.firebaseConfig.databaseURL+'/menuItems.json'
+      ).then((response) => {
+        if(response.ok){
+          return response.json();
+        }else{
+          console.log('Error from DB');
+        }
+      }).then((data) => {
         const cleanData = [];
-
         for(const key in data) {
             const item = {
               id: key,
@@ -37,13 +38,14 @@ function Menu() {
         setLoadedItems(cleanData);
       }).catch(er => {
         console.log(er);
+      }).finally(()=>{
+        setIsLoading(false);
       })
   }
 
   function addItemHandler(data) {
-    fetch(context.firebaseConfig.databaseURL+'/menuItems', {
+    fetch(context.firebaseConfig.databaseURL+'/menuItems.json', {
       method: "POST",
-      mode:'no-cors',
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
