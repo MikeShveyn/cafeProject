@@ -8,31 +8,19 @@ const DataContext = createContext({
    addData : (newData) => {},
    removeData: (id) => {},
    addUserData : (newUser) => {},
-   removeUserData: (id) => {}
+   removeUserData: (id) => {},
+   token:'',
+   isLoggedIn:false,
+   login:(token)=>{},
+   logout:()=>{}
 });
 
-export function DataContextProvider(props) {
+export const DataContextProvider=(props)=>{
     const [dataState, setData] = useState([]);
     const [userState , setUser] = useState(null);
+    const [token,settoken]=useState();
 
-    const context = {
-        data : dataState,
-        user: userState,
-        firebaseConfig : {
-            apiKey: "AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI",
-            authDomain: "cafe-f0195.firebaseapp.com",
-            databaseURL: "https://cafe-f0195-default-rtdb.firebaseio.com",
-            projectId: "cafe-f0195",
-            storageBucket: "cafe-f0195.appspot.com",
-            messagingSenderId: "323160095814",
-            appId: "1:323160095814:web:18b3004470a140feddde47"
-          },
-        addData : addDataHandler,
-        removeData: removeDataHandler,
-        addUserData : addUserHandler,
-        removeUserData: removeUserHandler
-    };
- 
+    const userIsLoggedIn=!!token;
     function addDataHandler(newData) {
         setData((prevData)=>{
             return prevData.concat(newData);
@@ -53,8 +41,35 @@ export function DataContextProvider(props) {
         setUser(null);
     }
 
+    const logInHadler=(token)=>{
+        settoken(token);
+    };
 
+    const logOutHadler=()=>{
+        settoken(null);
+    };
 
+    const context = {
+        data : dataState,
+        user: userState,
+        firebaseConfig : {
+            apiKey: "AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI",
+            authDomain: "cafe-f0195.firebaseapp.com",
+            databaseURL: "https://cafe-f0195-default-rtdb.firebaseio.com",
+            projectId: "cafe-f0195",
+            storageBucket: "cafe-f0195.appspot.com",
+            messagingSenderId: "323160095814",
+            appId: "1:323160095814:web:18b3004470a140feddde47"
+          },
+        addData : addDataHandler,
+        removeData: removeDataHandler,
+        addUserData : addUserHandler,
+        removeUserData: removeUserHandler,
+        token: token,
+        isLoggedIn:userIsLoggedIn,
+        login:logInHadler,
+        logout:logOutHadler
+    };
 
     return <DataContext.Provider value={context}>
         {props.children}

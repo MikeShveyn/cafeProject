@@ -52,6 +52,11 @@ li:active {
     color : black;
 }
 
+.logOut{
+    background-color: antiquewhite;
+    cursor: pointer;
+}
+
 
 
 

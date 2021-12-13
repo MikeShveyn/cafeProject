@@ -1,13 +1,17 @@
 import React from "react";
-import { useState, useRef } from 'react';
+import { useState, useRef,useContext } from 'react';
 import classes from './Auth.module.css';
+import {useNavigate} from 'react-router-dom';
+import AuthContext from '../../store/data-context';
+
 
 function Auth() {
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const [isLoading, setIsLoading] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
-
+    const authcxt=useContext(AuthContext);
+    const history=useNavigate();
     const switchAuthModeHandler = () => {
         setIsLogin((prevState) => !prevState);
       };
@@ -17,39 +21,49 @@ function Auth() {
     
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
-        console.log(enteredPassword);
+        
 
         setIsLoading(true);
         let url;
-        if(isLogin){
-            url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI';
-        }
-        else{
-            fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI',
+        if(isLogin)
             {
-                method:'POST',
-                body:JSON.stringify({
-                    email:enteredEmail,password:enteredPassword, returnSecureToken:true
+            url =
+                'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI';
+            }
+        else{
+            url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI';
+            }
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({
+                  email: enteredEmail,
+                  password: enteredPassword,
+                  returnSecureToken: true,
                 }),
-                headers:{'Content-Type':'application/json'}
-            }).then(res=>{
-                setIsLoading(false);
-                if(res.ok){
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              })
+                .then((res) => {
+                  setIsLoading(false);
+                  if (res.ok) {
                     return res.json();
-                }
-                else{
-                    res.json().then(data=>{console.log(data)});
+                  } else {
+                    return res.json().then((data) => {
                     let errorMessage = 'Authentication failed!';
                     throw new Error(errorMessage);
-                }
-            }).catch((err) => {
-                alert(err.message);
-              });;
+                    });
+                  }
+                })
+                .then((data) => {
+                    authcxt.login(data.idToken);
+                    history('/');
+                })
+                .catch((err) => {
+                    alert(err.message);
+                });
 
-        }
-
-    }
+        };
 
     return(
         <div>

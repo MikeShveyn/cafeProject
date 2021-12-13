@@ -6,12 +6,13 @@ import './index.css';
 import App from './App';
 import {DataContextProvider} from './store/data-context';
 
+
 ReactDOM.render(
   <DataContextProvider>
-  <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </DataContextProvider>,
+    <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </DataContextProvider>,
   document.getElementById('root'));
 
 
