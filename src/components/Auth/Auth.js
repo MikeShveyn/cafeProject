@@ -4,6 +4,7 @@ import classes from "./Auth.module.css";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/data-context";
 import Card from "../ui/Card/Card";
+import Button from "../ui/Button/Button";
 
 function Auth() {
   const emailInputRef = useRef();
@@ -67,7 +68,7 @@ function Auth() {
     <div className={classes.auth}>
       <Card>
           <h1>{isLogin ? "Login" : "Sign Up"}</h1>
-          <form onSubmit={submitHandler}>
+          <form>
             <div className={classes.control}>
               <label htmlFor="email">Your Email</label>
               <input type="email" id="email" required ref={emailInputRef} />
@@ -83,7 +84,8 @@ function Auth() {
             </div>
             <div className={classes.actions}>
               {!isLoading && (
-                <button>{isLogin ? "Login" : "Create Account"}</button>
+               <Button label={isLogin ? "Login" : "Create Account"}
+                action={submitHandler}/>
               )}
               {isLoading && <p>Sending request...</p>}
               <button
