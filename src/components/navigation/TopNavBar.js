@@ -9,7 +9,6 @@ function TopNavBar() {
   const authCtx=useContext(AuthContext);
   const isLoggedIn=authCtx.isLoggedIn;
   const history=useNavigate();
-  let locStor=authCtx.userInLocStor;
 
   const logOutButtonHandler=()=>{
     authCtx.logout();
