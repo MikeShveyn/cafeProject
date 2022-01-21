@@ -65,10 +65,16 @@ export const loginUser = async (email, password) => {
   }
 };
 
-export const getMenuData = async () => {
+export const getMenuTableData = async (type) => {
+  let dbref;
+  if(type === 'menu'){
+     dbref =  ref(db, "menuItems");
+  }else if(type === 'table'){
+     dbref =  ref(db, "tables");
+  }
   return new Promise((resolve) => {
     onValue(
-      ref(db, "menuItems"),
+       dbref,
       (snapshot) => {
         if (snapshot.exists()) {
           resolve(cleanMenuData(snapshot.val()));
@@ -84,22 +90,60 @@ export const getMenuData = async () => {
 };
 
 
-export const addMenuItem = async (item) => {
-  const menuListRef = ref(db, "menuItems");
+
+
+export const addMenuTableItem = async (type,item) => {
+  let dbref;
+  let json;
+  if(type === 'menu'){
+     dbref =  ref(db, "menuItems");
+     json = {
+      title: item.title,
+      image: item.image,
+      price: item.price,
+      descr: item.descr,
+      type: item.type,
+      place: item.place
+     }
+  }else if(type === 'table'){
+     dbref =  ref(db, "tables");
+     json = {
+      title: item.title,
+      image: item.image,
+      descr: item.descr,
+      place: item.place,
+      avaliable : item.avaliable
+     }
+  }
+  const menuListRef = dbref;
   const newMenuRef = push(menuListRef);
-  await set(newMenuRef, {
-    title: item.title,
-    image: item.image,
-    price: item.price,
-    descr: item.descr,
-    type: item.type,
-  });
+  await set(newMenuRef, json);
 };
 
-export const editMenuData = async(id, item) => {
-  const updateObj = {};
-  updateObj["/menuItems/" + id] = item;
-  await update(db, updateObj); 
+export const updateMenuTableData = async(type,id, item) => { 
+  let dbref;
+  let json;
+  if(type === 'menu'){
+     dbref =  ref(db, "menuItems/" + id);
+     json = {
+      title: item.title,
+      image: item.image,
+      price: item.price,
+      descr: item.descr,
+      type: item.type,
+      place: item.place
+     }
+  }else if(type === 'table'){
+     dbref =  ref(db, "tables/" + id);
+     json = {
+      title: item.title,
+      image: item.image,
+      descr: item.descr,
+      place: item.place,
+      avaliable : item.avaliable
+     }
+  }
+  await update(dbref, json)
 };
 
 function cleanMenuData(response) {

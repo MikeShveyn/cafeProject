@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import css from "./MenuList.module.css";
 import Select from "../ui/Select/Select";
 import CafeDialog from "../ui/Dialog/CafeDialog";
+import { updateMenuTableData } from "../../store/firebase";
 
 const FilterType = [
   { id: 1, label: "Select Type", value: "none" },
@@ -20,7 +21,10 @@ const FilterPrice = [
 function MenuList(props) {
   const [filter, setFilter] = useState("none");
   const [price, setPrice] = useState("none");
+  const [currentMenuData, setCurrentMenuData] = useState(null);
   const [openDialog, setDialogOpen] = useState(false);
+
+  console.log(props);
 
   const handleFilter = (value) => {
     setFilter(value);
@@ -32,53 +36,108 @@ function MenuList(props) {
 
   const handleEdit = (id, data) => {
     console.log(id, data);
+    setCurrentMenuData({ id: id, data: data });
     setDialogOpen(true);
-  }
+  };
 
   const handleDialogClose = () => {
-    console.log('dialog closed');
     setDialogOpen(false);
-  }
+  };
+
+  const onDialogSubmit = async (data) => {
+    console.log("dialog submit", data);
+    try {
+      await updateMenuTableData(props.dataType, data.id, data.data);
+      setDialogOpen(false);
+      props.onEditSubmit();
+    } catch (er) {
+      console.error(er);
+    }
+  };
 
   return (
     <React.Fragment>
       <div className={css.title}>{props.title}</div>
-      <div className={css.filterGroup}>
-        <Select items={FilterType} onChange={handleFilter} />
-        <Select items={FilterPrice} onChange={handlePrice} />
-      </div>
+      {props.dataType === "menu" && (
+        <div className={css.filterGroup}>
+          <Select items={FilterType} onChange={handleFilter} />
+          <Select items={FilterPrice} onChange={handlePrice} />
+        </div>
+      )}
 
-      <ul className={css.list}>
-        {props.items
-          .filter((item) => {
-            if (filter !== "none") {
-              return item.type === filter;
-            } else {
-              return item;
-            }
-          })
-          .sort((a, b) => {
-            if (price === "up") {
-              return a.price - b.price;
-            } else if (price === "down") {
-              return b.price - a.price;
-            } else {
-              return;
-            }
-          })
-          .map((item) => (
-            <MenuItem
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              image={item.image}
-              price={item.price}
-              description={item.descr}
-              handleEdit={()=>handleEdit(item.id, {title : item.title, image: item.image, price: item.price, descr: item.descr, type: item.type})}
-            />
-          ))}
-      </ul>
-    <CafeDialog openDialog={openDialog} onDialogClose={() => handleDialogClose()}/>
+      {props.items ? (
+        <ul className={css.list}>
+          {props.items
+            .filter((item) => {
+              if (filter !== "none") {
+                return item.type === filter;
+              } else {
+                return item;
+              }
+            })
+            .sort((a, b) => {
+              if (price === "up") {
+                return a.price - b.price;
+              } else if (price === "down") {
+                return b.price - a.price;
+              } else {
+                return;
+              }
+            })
+            .map((item) =>
+              props.dataType === "menu" ? (
+                <MenuItem
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  image={item.image}
+                  price={item.price}
+                  description={item.descr}
+                  handleClick={() =>
+                    handleEdit(item.id, {
+                      title: item.title,
+                      image: item.image,
+                      price: item.price,
+                      descr: item.descr,
+                      type: item.type,
+                      place : item.place
+                    })
+                  }
+                  editMode={props.editMode}
+                />
+              ) : (
+                <MenuItem
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  image={item.image}
+                  description={item.descr}
+                  avaliable = {item.avaliable}
+                  place = {item.place}
+                  handleClick={() =>
+                    handleEdit(item.id, {
+                      title: item.title,
+                      image: item.image,
+                      descr: item.descr,
+                      place : item.place,
+                      avaliable : item.avaliable
+                    })
+                  }
+                  editMode={props.editMode}
+                />
+              )
+            )}
+        </ul>
+      ) : (
+        <p>No items avaliable...</p>
+      )}
+      <CafeDialog
+        openDialog={openDialog}
+        dataType={props.dataType}
+        menuData={currentMenuData}
+        onDialogClose={() => handleDialogClose()}
+        onDialogSubmit={onDialogSubmit}
+      />
     </React.Fragment>
   );
 }
