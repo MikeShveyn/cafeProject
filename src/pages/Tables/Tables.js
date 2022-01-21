@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import MenuList from "../../components/menuList/MenuList";
 import AddMenuForm from "../../components/AddMenuForm/AddMenuForm";
 import DataContext from "../../store/data-context";
-import css from "./Menu.module.css";
+import css from "./Tables.module.css";
 import Button from "../../components/ui/Button/Button";
 import {getMenuTableData, addMenuTableItem } from "../../store/firebase";
 
-function Menu() {
+function Tables() {
   const [loadedItems, setLoadedItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
@@ -19,7 +19,7 @@ function Menu() {
 
   async function getItems() {
     try {
-      const cleanData = await getMenuTableData('menu');
+      const cleanData = await getMenuTableData('table');
       console.log(cleanData);
       setLoadedItems(cleanData);
     } catch (err) {
@@ -32,7 +32,7 @@ function Menu() {
 
   async function addItemHandler(data) {
       try{
-        await addMenuTableItem('menu',data);
+        await addMenuTableItem('table' ,data);
         console.log("Sucess");
         setIsAddMenuOpen(false);
         await getItems();
@@ -65,10 +65,10 @@ function Menu() {
           action={() => setIsAddMenuOpen(!isAddMenuOpen)}
         />
       </div>
-      {isAddMenuOpen && <AddMenuForm onAddItem={addItemHandler} dataType={'menu'}/>}
-      <MenuList title={"Menu"} dataType={'menu'} editMode={true} items={loadedItems} onEditSubmit={() => onEditSubmit()}/>
+      {isAddMenuOpen && <AddMenuForm onAddItem={addItemHandler} dataType={'table'}/>}
+      <MenuList title={"Menu"} dataType={'table'} editMode={true} items={loadedItems} onEditSubmit={() => onEditSubmit()}/>
     </React.Fragment>
   );
 }
 
-export default Menu;
+export default Tables;

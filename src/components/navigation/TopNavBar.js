@@ -2,19 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import css from "./TopNavBar.module.css";
-import AuthContext from '../../store/data-context';
-import {useNavigate} from 'react-router-dom';
+import AuthContext from "../../store/data-context";
+import { useNavigate } from "react-router-dom";
 
 function TopNavBar() {
-  const authCtx=useContext(AuthContext);
-  const isLoggedIn=authCtx.isLoggedIn;
-  const history=useNavigate();
-  let locStor=authCtx.userInLocStor;
+  const authCtx = useContext(AuthContext);
+  const isLoggedIn = authCtx.isLoggedIn;
+  const history = useNavigate();
 
-  const logOutButtonHandler=()=>{
+  const logOutButtonHandler = () => {
     authCtx.logout();
-    history('/');
-  }
+    history("/");
+  };
 
   return (
     <header className={css.fixed}>
@@ -26,27 +25,40 @@ function TopNavBar() {
       </div>
       <nav>
         <ul>
-          <li>
-            <Link to="/Menu">Menu</Link>
-          </li>
+          {(isLoggedIn && authCtx.user.type === "Admin") && (
+            <li>
+              <Link to="/Menu">Menu</Link>
+            </li>
+          )}
+
+          {(isLoggedIn && authCtx.user.type === "Admin") && (
+            <li>
+              <Link to="/Tables">Tables</Link>
+            </li>
+          )}
           <li>
             <Link to="/Order">Order</Link>
           </li>
           {!isLoggedIn && (
             <li>
-            <Link to="/SignIn">LogIn</Link>
-          </li>
+              <Link to="/SignIn">LogIn</Link>
+            </li>
           )}
-           {isLoggedIn && (
+          {isLoggedIn && (
             <li>
               <div className="classes.welcome">
-              <p>Hello, {authCtx.user.name}{console.log(authCtx.user.name)}</p>
+                <p>
+                  Hello, {authCtx.user.name}
+                  {console.log(authCtx.user.name)}
+                </p>
               </div>
             </li>
           )}
           {isLoggedIn && (
             <li>
-              <button className={css.logOut} onClick={logOutButtonHandler}>LogOut</button>
+              <button className={css.logOut} onClick={logOutButtonHandler}>
+                LogOut
+              </button>
             </li>
           )}
         </ul>
