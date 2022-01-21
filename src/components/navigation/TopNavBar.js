@@ -39,7 +39,7 @@ function TopNavBar() {
            {isLoggedIn && (
             <li>
               <div className="classes.welcome">
-              <p>Hello, {localStorage.getItem('user')}</p>
+              <p>Hello, {}</p>
               </div>
             </li>
           )}
