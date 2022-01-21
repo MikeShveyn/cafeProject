@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import css from "./MenuList.module.css";
 import Select from "../ui/Select/Select";
 import CafeDialog from "../ui/Dialog/CafeDialog";
+import {updateMenuData} from "../../store/firebase"
 
 const FilterType = [
   { id: 1, label: "Select Type", value: "none" },
@@ -20,6 +21,7 @@ const FilterPrice = [
 function MenuList(props) {
   const [filter, setFilter] = useState("none");
   const [price, setPrice] = useState("none");
+  const [currentMenuData, setCurrentMenuData] = useState(null);
   const [openDialog, setDialogOpen] = useState(false);
 
   const handleFilter = (value) => {
@@ -32,13 +34,25 @@ function MenuList(props) {
 
   const handleEdit = (id, data) => {
     console.log(id, data);
+    setCurrentMenuData({id: id, data: data});
     setDialogOpen(true);
   }
 
   const handleDialogClose = () => {
-    console.log('dialog closed');
     setDialogOpen(false);
   }
+
+  const onDialogSubmit = async(data) => {
+      console.log('dialog submit', data);
+      try {
+        await updateMenuData(data.id, data.data);
+        setDialogOpen(false);
+      }catch(er){
+        console.error(er);
+      }
+  }
+
+
 
   return (
     <React.Fragment>
@@ -74,11 +88,12 @@ function MenuList(props) {
               image={item.image}
               price={item.price}
               description={item.descr}
-              handleEdit={()=>handleEdit(item.id, {title : item.title, image: item.image, price: item.price, descr: item.descr, type: item.type})}
+              handleClick={()=>handleEdit(item.id, {title : item.title, image: item.image, price: item.price, descr: item.descr, type: item.type})}
+              editMode={props.editMode}
             />
           ))}
       </ul>
-    <CafeDialog openDialog={openDialog} onDialogClose={() => handleDialogClose()}/>
+    <CafeDialog openDialog={openDialog} menuData={currentMenuData} onDialogClose={() => handleDialogClose()} onDialogSubmit = {onDialogSubmit}/>
     </React.Fragment>
   );
 }

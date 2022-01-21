@@ -3,8 +3,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import AddMenuForm from '../../AddMenuForm/AddMenuForm'
 
 const style = {
   position: 'absolute',
@@ -23,6 +22,11 @@ export default function CafeDialog(props) {
   const handleClose = () => {
     setOpen(false);
     props.onDialogClose();
+  }
+
+  const onDialogSubmit = (newDt) => {
+    const data = {id: props.menuData.id , data : newDt};
+    props.onDialogSubmit(data);
   }
 
   React.useEffect(() => {
@@ -45,12 +49,7 @@ export default function CafeDialog(props) {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            <AddMenuForm onAddItem={onDialogSubmit} updateMode={props.menuData?.data}/>
           </Box>
         </Fade>
       </Modal>

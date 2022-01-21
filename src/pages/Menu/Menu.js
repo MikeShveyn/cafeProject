@@ -5,6 +5,7 @@ import DataContext from "../../store/data-context";
 import css from "./Menu.module.css";
 import Button from "../../components/ui/Button/Button";
 import {getMenuData, addMenuItem } from "../../store/firebase";
+import { TrendingUpOutlined } from "@mui/icons-material";
 
 function Menu() {
   const [loadedItems, setLoadedItems] = useState([]);
@@ -58,7 +59,7 @@ function Menu() {
         />
       </div>
       {isAddMenuOpen && <AddMenuForm onAddItem={addItemHandler} />}
-      <MenuList title={"Menu"} items={loadedItems} />
+      <MenuList title={"Menu"} editMode={true} items={loadedItems} />
     </React.Fragment>
   );
 }
