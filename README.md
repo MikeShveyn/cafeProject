@@ -2,7 +2,7 @@
 # Cofee Shop Cofeen 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-![alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.redbookmag.com%2Ffood-recipes%2Fg3179%2Fcoffee-quotes%2F&psig=AOvVaw0FZX_qevLiZSRJPo05Xlm-&ust=1642862320516000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCIj-qJqJw_UCFQAAAAAdAAAAABAJ)
+![alt text](https://hips.hearstapps.com/rbk.h-cdn.co/assets/16/45/1478730700-coffee-quotes.jpg)
 ## Helpful react commands:
 
 
