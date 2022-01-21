@@ -1,7 +1,15 @@
+body{
+    
+}
+
 .mainD{
-    width: 90%;
+    background-image: url('../../olam.jpeg');
+    opacity: 0.75;
+    width: 95%;
+    height: 570px;
     padding-top: 3%;
     font-size: 30px;
+    color:aliceblue;
     display: flex;
     flex-direction: column;
     text-align: center;
