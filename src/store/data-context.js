@@ -21,6 +21,8 @@ export const DataContextProvider=(props)=>{
     const [userState , setUser] = useState(JSON.parse(localStorage.getItem("user")));
     const [token,settoken]=useState(localStorage.getItem("token"));
     const userIsLoggedIn = !!token;
+
+
     function addDataHandler(newData) {
         setData((prevData)=>{
             return prevData.concat(newData);
@@ -29,7 +31,7 @@ export const DataContextProvider=(props)=>{
 
     function removeDataHandler(id) {
         setData((prevData)=>{
-            return prevData.filter(id=>prevData.id !== id);
+            return prevData.filter(prv=>prv.id !== id);
             });
     }
 

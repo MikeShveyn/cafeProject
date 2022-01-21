@@ -7,15 +7,15 @@ function Order() {
     const history=useNavigate();
 
     function ButtonHandler(opt) {
-        history('/Menu/:' + opt);
+        history('/PlaceOrder/' + opt);
     }
     return(
             <div className={classes.mainD} >
-                please, check where do you want to seat:
+                Please, check where do you want to seat:
                 <div className={classes.optionDiv}>
                     <Button label={'Inside'} onClick={()=>ButtonHandler('Inside')}/>
                     <Button label={'Outside'} onClick={()=>ButtonHandler('Outside')}/>
-                    <Button label={'Take away'} onClick={()=>ButtonHandler('Take away')}/>
+                    <Button label={'Take away'} onClick={()=>ButtonHandler('TakeAway')}/>
                 </div>
             </div>
     )

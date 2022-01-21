@@ -9,7 +9,7 @@ function MenuItem(props) {
       <Card>
         <Button
           label={props.editMode ? "Edit" : "Add"}
-          action={() => {
+          onClick={() => {
             props.handleClick();
           }}
         />

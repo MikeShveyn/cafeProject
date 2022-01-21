@@ -62,7 +62,7 @@ function Tables() {
       <div className={css.actions}>
         <Button
           label={isAddMenuOpen ? "Close " + "Editor" : "Open " + "Editor"}
-          action={() => setIsAddMenuOpen(!isAddMenuOpen)}
+          onClick={() => setIsAddMenuOpen(!isAddMenuOpen)}
         />
       </div>
       {isAddMenuOpen && <AddMenuForm onAddItem={addItemHandler} dataType={'table'}/>}
