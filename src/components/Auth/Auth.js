@@ -7,6 +7,7 @@ import Card from "../ui/Card/Card";
 import { FormControl,FormControlLabel,FormLabel } from "@material-ui/core";
 import { RadioGroup ,Radio} from "@material-ui/core";
 import DataContext from "../../store/data-context";
+import {createUser, loginUser } from "../../store/firebase"
 
 
 function Auth() {
@@ -27,70 +28,41 @@ function Auth() {
     setuserType(event.target.value);
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async(event) => {
     event.preventDefault();
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
-
     setIsLoading(true);
-    let url;
-    if (isLogin) {
-      url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI";
-        const state=[enteredEmail];
-        localStorage.setItem('user', state);
-    } else {
-      const enteredName=Username.current.value;
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI";
-        fetch(context.firebaseConfig.databaseURL + "/users.json", {
-          method: "POST",
-          body: JSON.stringify({
-            name:enteredName,
-            email:enteredEmail,
-            password:enteredPassword,
-            type:userType
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then(() => {
-          console.log("Sucess");
-        })
-        .catch((er) => {
-          console.log(er);
-        });
-    }
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        email: enteredEmail,
-        password: enteredPassword,
-        returnSecureToken: true,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        setIsLoading(false);
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            let errorMessage = "Authentication failed!";
-            throw new Error(errorMessage);
-          });
-        }
-      })
-      .then((data) => {
-        authcxt.login(data.idToken);
+    try{
+      const enteredEmail = emailInputRef.current.value;
+      const enteredPassword = passwordInputRef.current.value;
+      let response = null;
+      cleanFormValues();
+
+      if (isLogin) {
+         response =  await loginUser(enteredEmail, enteredPassword);
+      } else {
+         const name = Username.current.value;
+         response =  await createUser(name, enteredEmail, enteredPassword, userType);
+      }
+
+      if(response) {
+        console.log('response ', response);
+        authcxt.login(response.token);
+        authcxt.addUserData(response.userData)
         history("/");
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
+      }
+    }catch(error){
+      console.log(error.message)
+      alert(error.message);
+      setIsLoading(false);
+    }
   };
+
+
+  function cleanFormValues() {
+    Array.from(document.querySelectorAll("input")).forEach(
+      input => (input.value = "")
+    );
+  }
 
   return (
     <div className={classes.auth}>
