@@ -3,7 +3,8 @@ import {createContext, useState} from 'react';
 
 const DataContext = createContext({
    data : [],
-   user : null, 
+   user : null,
+   getUserName: ()=>{}, 
    addData : (newData) => {},
    removeData: (id) => {},
    addUserData : (newUser) => {},
@@ -19,7 +20,6 @@ export const DataContextProvider=(props)=>{
     const [userState , setUser] = useState(null);
     const [token,settoken]=useState(null);
     const userIsLoggedIn = !!token;
-
     function addDataHandler(newData) {
         setData((prevData)=>{
             return prevData.concat(newData);
@@ -35,6 +35,7 @@ export const DataContextProvider=(props)=>{
       function addUserHandler(newUser) {
         console.log('new user ', newUser);
         setUser(newUser);
+        DataContext.user=newUser;
     }
 
     function removeUserHandler() {
@@ -42,7 +43,6 @@ export const DataContextProvider=(props)=>{
     }
 
     const logInHadler=(token)=>{
-        console.log('token ', token);
         settoken(token);
     };
 
@@ -50,10 +50,14 @@ export const DataContextProvider=(props)=>{
         settoken(null);
         setUser(null);
     };
+    const GetName=()=>{
+        return useState;
+    }
 
     const context = {
         data : dataState,
         user: userState,
+        getUserName: GetName,
         token: token,
         isLoggedIn:userIsLoggedIn,
         addData : addDataHandler,

@@ -39,7 +39,7 @@ function TopNavBar() {
            {isLoggedIn && (
             <li>
               <div className="classes.welcome">
-              <p>Hello, {}</p>
+              <p>Hello, {authCtx.user.name}</p>
               </div>
             </li>
           )}
