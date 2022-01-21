@@ -16,6 +16,7 @@ function App() {
           <Route path="/" element={<Main />}></Route>
           <Route path="/SignIn" element={<SignIn />}></Route>
           <Route path="/Menu" element={<Menu />}></Route>
+          <Route path="/Menu/:username" component={Menu} />
           <Route path="/Order" element={<Order />}></Route>
         </Routes>
       </Container>
