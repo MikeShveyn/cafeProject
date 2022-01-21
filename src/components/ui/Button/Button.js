@@ -1,7 +1,7 @@
 import React from 'react';
 import css from './Button.module.css';
 
-function Button(props) {
+export function Button(props) {
     return (
         <div className={css.actions}>
         <button onClick={() => props.action()}>

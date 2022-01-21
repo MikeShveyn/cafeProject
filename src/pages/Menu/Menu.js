@@ -4,6 +4,7 @@ import AddMenuForm from "../../components/AddMenuForm/AddMenuForm";
 import DataContext from "../../store/data-context";
 import css from "./Menu.module.css";
 import Button from "../../components/ui/Button/Button";
+import {getMenuData, addMenuItem } from "../../store/firebase";
 
 function Menu() {
   const [loadedItems, setLoadedItems] = useState([]);
@@ -16,51 +17,28 @@ function Menu() {
     getItems();
   }, []);
 
-  function getItems() {
-    fetch(context.firebaseConfig.databaseURL + "/menuItems.json")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          console.log("Error from DB");
-        }
-      })
-      .then((data) => {
-        const cleanData = [];
-        for (const key in data) {
-          const item = {
-            id: key,
-            ...data[key],
-          };
-          cleanData.push(item);
-        }
-        console.log(cleanData);
-        setLoadedItems(cleanData);
-      })
-      .catch((er) => {
-        console.log(er);
-      })
-      .finally(() => {
-        console.log(isAddMenuOpen);
-        setIsLoading(false);
-      });
+  async function getItems() {
+    try {
+      const cleanData = await getMenuData();
+      console.log(cleanData);
+      setLoadedItems(cleanData);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      console.log(isAddMenuOpen);
+      setIsLoading(false);
+    }
   }
 
-  function addItemHandler(data) {
-    fetch(context.firebaseConfig.databaseURL + "/menuItems.json", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(() => {
+  async function addItemHandler(data) {
+      try{
+        await addMenuItem(data);
         console.log("Sucess");
         setIsAddMenuOpen(false);
-      })
-      .catch((er) => {
-        console.log(er);
-      });
+        await getItems();
+      }catch(err){
+        console.log(err);
+      }
   }
 
   if (isLoading) {

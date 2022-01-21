@@ -6,7 +6,16 @@ import {
   sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
-import { getDatabase, ref, set, onValue, get, child } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
+  get,
+  child,
+  push,
+  update,
+} from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI",
@@ -21,6 +30,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
+
 
 export const createUser = async (name, email, password, type) => {
   try {
@@ -54,6 +64,55 @@ export const loginUser = async (email, password) => {
     throw error;
   }
 };
+
+export const getMenuData = async () => {
+  return new Promise((resolve) => {
+    onValue(
+      ref(db, "menuItems"),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          resolve(cleanMenuData(snapshot.val()));
+        } else {
+          resolve(null);
+        }
+      },
+      {
+        onlyOnce: true,
+      }
+    );
+  });
+};
+
+
+export const addMenuItem = async (item) => {
+  const menuListRef = ref(db, "menuItems");
+  const newMenuRef = push(menuListRef);
+  await set(newMenuRef, {
+    title: item.title,
+    image: item.image,
+    price: item.price,
+    descr: item.descr,
+    type: item.type,
+  });
+};
+
+export const editMenuData = async(id, item) => {
+  const updateObj = {};
+  updateObj["/menuItems/" + id] = item;
+  await update(db, updateObj); 
+};
+
+function cleanMenuData(response) {
+  const cleanData = [];
+  for (const key in response) {
+    const item = {
+      id: key,
+      ...response[key],
+    };
+    cleanData.push(item);
+  }
+  return cleanData;
+}
 
 async function writeUserData(userData) {
   await set(ref(db, "users/" + userData.uid), {
