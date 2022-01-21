@@ -2,16 +2,13 @@ import React from "react";
 import css from "./MenuItem.module.css";
 import Card from "../ui/Card/Card";
 import { Button } from "../ui/Button/Button";
-import CafeDialog from "../ui/Dialog/CafeDialog";
+
 
 function MenuItem(props) {
-
-
-
   return (
     <li className={css.container}>
       <Card>
-       <Button label={"Edit"} action={() => {CafeDialog}} /> 
+       <Button label={"Edit"} action={() => {props.handleEdit()}} /> 
         <div className={css.flex}>
           <img src="assets/imgs/item.png" alt="image" />
           <p className={css.title}>{props.title}</p>

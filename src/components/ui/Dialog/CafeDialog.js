@@ -20,11 +20,15 @@ const style = {
 
 export default function CafeDialog(props) {
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    props.onDialogClose();
+  }
 
-  useEffect(() => {
-    setOpen(true);
-  }, [props.open]);
+  React.useEffect(() => {
+    console.log('dialoghook')
+    setOpen(props.openDialog);
+  }, [props.openDialog]);
 
   return (
     <div>

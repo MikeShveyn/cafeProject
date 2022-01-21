@@ -2,6 +2,7 @@ import MenuItem from "../menuItem/MenuItem";
 import React, { useState } from "react";
 import css from "./MenuList.module.css";
 import Select from "../ui/Select/Select";
+import CafeDialog from "../ui/Dialog/CafeDialog";
 
 const FilterType = [
   { id: 1, label: "Select Type", value: "none" },
@@ -19,6 +20,7 @@ const FilterPrice = [
 function MenuList(props) {
   const [filter, setFilter] = useState("none");
   const [price, setPrice] = useState("none");
+  const [openDialog, setDialogOpen] = useState(false);
 
   const handleFilter = (value) => {
     setFilter(value);
@@ -27,6 +29,16 @@ function MenuList(props) {
   const handlePrice = (value) => {
     setPrice(value);
   };
+
+  const handleEdit = (id, data) => {
+    console.log(id, data);
+    setDialogOpen(true);
+  }
+
+  const handleDialogClose = () => {
+    console.log('dialog closed');
+    setDialogOpen(false);
+  }
 
   return (
     <React.Fragment>
@@ -62,9 +74,11 @@ function MenuList(props) {
               image={item.image}
               price={item.price}
               description={item.descr}
+              handleEdit={()=>handleEdit(item.id, {title : item.title, image: item.image, price: item.price, descr: item.descr, type: item.type})}
             />
           ))}
       </ul>
+    <CafeDialog openDialog={openDialog} onDialogClose={() => handleDialogClose()}/>
     </React.Fragment>
   );
 }
