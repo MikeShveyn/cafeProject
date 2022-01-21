@@ -1,9 +1,11 @@
 import React from "react";
-import {createContext, useState} from 'react';
+import {createContext,useEffect, useState} from 'react';
+
 
 const DataContext = createContext({
    data : [],
-   user : null, 
+   userInLocStor:null,
+   user : null,
    addData : (newData) => {},
    removeData: (id) => {},
    addUserData : (newUser) => {},
@@ -16,10 +18,9 @@ const DataContext = createContext({
 
 export const DataContextProvider=(props)=>{
     const [dataState, setData] = useState([]);
-    const [userState , setUser] = useState(null);
-    const [token,settoken]=useState(null);
+    const [userState , setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [token,settoken]=useState(localStorage.getItem("token"));
     const userIsLoggedIn = !!token;
-
     function addDataHandler(newData) {
         setData((prevData)=>{
             return prevData.concat(newData);
@@ -32,9 +33,12 @@ export const DataContextProvider=(props)=>{
             });
     }
 
+
       function addUserHandler(newUser) {
         console.log('new user ', newUser);
         setUser(newUser);
+        DataContext.user=newUser;
+        localStorage.setItem("user",JSON.stringify(newUser));
     }
 
     function removeUserHandler() {
@@ -42,13 +46,15 @@ export const DataContextProvider=(props)=>{
     }
 
     const logInHadler=(token)=>{
-        console.log('token ', token);
         settoken(token);
+        localStorage.setItem("token",token);
     };
 
     const logOutHadler=()=>{
         settoken(null);
         setUser(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
     };
 
     const context = {

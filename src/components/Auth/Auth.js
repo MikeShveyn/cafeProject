@@ -35,10 +35,9 @@ function Auth() {
       const enteredEmail = emailInputRef.current.value;
       const enteredPassword = passwordInputRef.current.value;
       let response = null;
-      cleanFormValues();
-
       if (isLogin) {
          response =  await loginUser(enteredEmail, enteredPassword);
+         console.log(response);
       } else {
          const name = Username.current.value;
          response =  await createUser(name, enteredEmail, enteredPassword, userType);
@@ -46,13 +45,14 @@ function Auth() {
 
       if(response) {
         console.log('response ', response);
+        authcxt.addUserData(response.userData);
         authcxt.login(response.token);
-        authcxt.addUserData(response.userData)
         history("/");
       }
     }catch(error){
       console.log(error.message)
       alert(error.message);
+      cleanFormValues();
       setIsLoading(false);
     }
   };

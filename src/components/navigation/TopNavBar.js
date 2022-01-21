@@ -9,6 +9,7 @@ function TopNavBar() {
   const authCtx=useContext(AuthContext);
   const isLoggedIn=authCtx.isLoggedIn;
   const history=useNavigate();
+  let locStor=authCtx.userInLocStor;
 
   const logOutButtonHandler=()=>{
     authCtx.logout();
@@ -39,7 +40,7 @@ function TopNavBar() {
            {isLoggedIn && (
             <li>
               <div className="classes.welcome">
-              <p>Hello, {}</p>
+              <p>Hello, {authCtx.user.name}{console.log(authCtx.user.name)}</p>
               </div>
             </li>
           )}
