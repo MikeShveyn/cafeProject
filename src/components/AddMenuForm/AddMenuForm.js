@@ -13,18 +13,30 @@ function AddMenuForm(props) {
   const typeFoodInputRef = useRef();
   const placeInInputRef = useRef();
   const placeOutInputRef = useRef();
+  const avaliableInputRef = useRef();
+  const notAvaliableInputRef = useRef();
 
   function submitHandler(event) {
     event.preventDefault();
     let typeActive = "";
     let placeActive = "";
+    let avaliableActive = null;
+    let menuItem = null;
 
-    if (typeHotInputRef.current.checked) {
-      typeActive = typeHotInputRef.current.value;
-    } else if (typeColdInputRef.current.checked) {
-      typeActive = typeColdInputRef.current.value;
-    } else if (typeFoodInputRef.current.checked) {
-      typeActive = typeFoodInputRef.current.value;
+    if(props.dataType === 'menu'){
+      if (typeHotInputRef.current.checked) {
+        typeActive = typeHotInputRef.current.value;
+      } else if (typeColdInputRef.current.checked) {
+        typeActive = typeColdInputRef.current.value;
+      } else if (typeFoodInputRef.current.checked) {
+        typeActive = typeFoodInputRef.current.value;
+      }
+    } else{
+      if(avaliableInputRef.current.checked){
+        avaliableActive = avaliableInputRef.current.value;
+      }else if(notAvaliableInputRef.current.checked){
+        avaliableActive = notAvaliableInputRef.current.value;
+      }
     }
 
     if(placeInInputRef.current.checked){
@@ -33,14 +45,28 @@ function AddMenuForm(props) {
       placeActive = placeOutInputRef.current.value;
     }
 
-    const menuItem = {
-      title: titleInputRef.current.value,
-      image: imageInputRef.current.value,
-      price: priceInputRef.current.value,
-      descr: descrInputRef.current.value,
-      type: typeActive,
-      place: placeActive
-    };
+    
+
+
+    if(props.dataType === 'menu'){
+       menuItem = {
+        title: titleInputRef.current.value,
+        image: imageInputRef.current.value,
+        price: priceInputRef.current.value,
+        descr: descrInputRef.current.value,
+        type: typeActive,
+        place: placeActive
+      };
+    }else{
+      menuItem = {
+        title: titleInputRef.current.value,
+        image: imageInputRef.current.value,
+        descr: descrInputRef.current.value,
+        place: placeActive,
+        avaliable : avaliableActive
+      };
+    }
+   
 
     props.onAddItem(menuItem);
   }
@@ -57,10 +83,13 @@ function AddMenuForm(props) {
             <label htmlFor="image">Image</label>
             <input type="text" required id="image" ref={imageInputRef}  defaultValue={props.updateMode? props.updateMode.image : ''}/>
           </div>
+          {props.dataType === 'menu' &&
           <div className={css.control}>
             <label htmlFor="price">Price</label>
             <input type="text" required id="price" ref={priceInputRef}  defaultValue={props.updateMode? props.updateMode.price : ''}/>
           </div>
+          }     
+          {props.dataType === 'menu' &&
           <div className={css.controlRadio}>
             <label htmlFor="hot">Hot</label>
             <input
@@ -88,6 +117,28 @@ function AddMenuForm(props) {
               ref={typeFoodInputRef}
             />
           </div>
+          }
+           {props.dataType === 'table' && 
+               <div className={css.controlRadio}>
+               <label htmlFor="avaliable">Avaliable</label>
+               <input
+                 type="radio"
+                 value="true"
+                 required
+                 id="avaliable"
+                 name="avaliable"
+                 ref={avaliableInputRef}
+               />
+               <label htmlFor="in">Not Avaliable</label>
+               <input
+                 type="radio"
+                 value="false"
+                 id="avaliable"
+                 name="avaliable"
+                 ref={notAvaliableInputRef}
+               />
+             </div>
+           }
           <div className={css.controlRadio}>
             <label htmlFor="in">Inside</label>
             <input

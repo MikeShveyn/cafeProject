@@ -49,7 +49,7 @@ export default function CafeDialog(props) {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <AddMenuForm onAddItem={onDialogSubmit} updateMode={props.menuData?.data}/>
+            <AddMenuForm onAddItem={onDialogSubmit} dataType={props.dataType} updateMode={props.menuData?.data}/>
           </Box>
         </Fade>
       </Modal>
