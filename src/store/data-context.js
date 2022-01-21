@@ -4,7 +4,6 @@ import {createContext, useState} from 'react';
 const DataContext = createContext({
    data : [],
    user : null, 
-   firebaseConfig : null,
    addData : (newData) => {},
    removeData: (id) => {},
    addUserData : (newUser) => {},
@@ -18,7 +17,7 @@ const DataContext = createContext({
 export const DataContextProvider=(props)=>{
     const [dataState, setData] = useState([]);
     const [userState , setUser] = useState(null);
-    const [token,settoken]=useState();
+    const [token,settoken]=useState(null);
     const userIsLoggedIn = !!token;
 
     function addDataHandler(newData) {
@@ -34,6 +33,7 @@ export const DataContextProvider=(props)=>{
     }
 
       function addUserHandler(newUser) {
+        console.log('new user ', newUser);
         setUser(newUser);
     }
 
@@ -42,11 +42,13 @@ export const DataContextProvider=(props)=>{
     }
 
     const logInHadler=(token)=>{
+        console.log('token ', token);
         settoken(token);
     };
 
     const logOutHadler=()=>{
         settoken(null);
+        setUser(null);
     };
 
     const context = {
@@ -54,15 +56,6 @@ export const DataContextProvider=(props)=>{
         user: userState,
         token: token,
         isLoggedIn:userIsLoggedIn,
-        firebaseConfig : {
-            apiKey: "AIzaSyA0-hEc_79Do9rcDUUFa4TklGJui3jbAWI",
-            authDomain: "cafe-f0195.firebaseapp.com",
-            databaseURL: "https://cafe-f0195-default-rtdb.firebaseio.com",
-            projectId: "cafe-f0195",
-            storageBucket: "cafe-f0195.appspot.com",
-            messagingSenderId: "323160095814",
-            appId: "1:323160095814:web:18b3004470a140feddde47"
-          },
         addData : addDataHandler,
         removeData: removeDataHandler,
         addUserData : addUserHandler,
