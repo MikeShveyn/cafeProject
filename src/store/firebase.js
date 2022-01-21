@@ -93,13 +93,19 @@ export const addMenuItem = async (item) => {
     price: item.price,
     descr: item.descr,
     type: item.type,
+    place: item.place
   });
 };
 
-export const editMenuData = async(id, item) => {
-  const updateObj = {};
-  updateObj["/menuItems/" + id] = item;
-  await update(db, updateObj); 
+export const updateMenuData = async(id, item) => { 
+  await update(ref(db, 'menuItems/' + id),{
+    title: item.title,
+    image: item.image,
+    price: item.price,
+    descr: item.descr,
+    type: item.type,
+    place: item.place
+  })
 };
 
 function cleanMenuData(response) {

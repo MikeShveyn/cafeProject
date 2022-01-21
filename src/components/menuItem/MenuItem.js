@@ -8,7 +8,7 @@ function MenuItem(props) {
   return (
     <li className={css.container}>
       <Card>
-       <Button label={"Edit"} action={() => {props.handleEdit()}} /> 
+       <Button label={props.editMode ?  "Edit": "Add"} action={() => {props.handleClick()}} /> 
         <div className={css.flex}>
           <img src="assets/imgs/item.png" alt="image" />
           <p className={css.title}>{props.title}</p>
