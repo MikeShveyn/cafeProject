@@ -11,7 +11,8 @@ function Order() {
     }
     return(
             <div className={classes.mainD} >
-                Please, check where do you want to seat:
+                <img src={require('../../olam.jpeg')} alt="header" />
+                <h1>Please, check where do you want to seat:</h1>
                 <div className={classes.optionDiv}>
                     <Button label={'Inside'} onClick={()=>ButtonHandler('Inside')}/>
                     <Button label={'Outside'} onClick={()=>ButtonHandler('Outside')}/>

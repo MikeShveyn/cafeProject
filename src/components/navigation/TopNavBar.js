@@ -43,7 +43,7 @@ function TopNavBar() {
   return (
     <header className={css.fixed}>
       <div className={css.logoTitle}>
-        <img src="assets/imgs/logo.png" alt="header" />
+        <img src= {require( "../../imgs/logo.png")}  alt="header" />
         <span>
           <Link to="/">Coffeen Bar</Link>
         </span>
@@ -81,9 +81,7 @@ function TopNavBar() {
           )}
           {isLoggedIn && (
             <li>
-              <button className={css.logOut} onClick={logOutButtonHandler}>
-                LogOut
-              </button>
+              <Button label={"LogOut"} onClick={logOutButtonHandler}/>
             </li>
           )}
           {isLoggedIn && (

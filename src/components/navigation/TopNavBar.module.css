@@ -63,5 +63,13 @@ li:active {
     width: 10%;
 }
 
-
+@media(max-width:786px){
+    .logoTitle span {
+        letter-spacing: 2px;
+        font-size: 16px;
+    }
+    p{ 
+        font-size: 16px;
+    }
+}
 
