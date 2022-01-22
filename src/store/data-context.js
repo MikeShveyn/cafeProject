@@ -1,5 +1,6 @@
 import React from "react";
-import {createContext,useState} from 'react';
+import {createContext,useState,useEffect} from 'react';
+
 
 
 const DataContext = createContext({
@@ -19,9 +20,14 @@ const DataContext = createContext({
 export const DataContextProvider=(props)=>{
     const [dataState, setData] = useState([]);
     const [userState , setUser] = useState(JSON.parse(localStorage.getItem("user")));
-    const [token,settoken]=useState(localStorage.getItem("token"));
+    const [token,settoken]=useState();
     const userIsLoggedIn = !!token;
-
+    useEffect(()=>{
+            settoken(CheckExpiry("token"));
+            if(token === null){
+                logOutHadler(); 
+        }
+    },[]);
 
     function addDataHandler(newData) {
         setData((prevData)=>{
@@ -48,16 +54,37 @@ export const DataContextProvider=(props)=>{
     }
 
     const logInHadler=(token)=>{
+        const now = new Date();
         settoken(token);
-        localStorage.setItem("token",token);
+        const ttl=600000 * 6;
+        const item = JSON.stringify({
+            token: token,
+            expiry: now.getTime() + 5000,
+        });
+        console.log(item);
+        localStorage.setItem("token",item);
     };
 
     const logOutHadler=()=>{
-        settoken(null);
-        setUser(null);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        settoken(null);
+        setUser(null);
     };
+
+    function CheckExpiry(key) {
+        const itemStr = localStorage.getItem(key);
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+        if (now.getTime() > item.expiry || !itemStr) {
+            // if the item doesn't exist, set null
+            // If the item is expired, delete the item from storage
+            // and return null
+            logOutHadler();
+            return null;
+        }
+        return item.value;
+    }
 
     const context = {
         data : dataState,
