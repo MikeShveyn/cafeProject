@@ -74,9 +74,13 @@ export const DataContextProvider=(props)=>{
 
     function CheckExpiry(key) {
         const itemStr = localStorage.getItem(key);
-        const item = JSON.parse(itemStr)
+        if(!itemStr){
+            logOutHadler();
+            return null;
+        }
+        const item = JSON.parse(itemStr);
         const now = new Date()
-        if (now.getTime() > item.expiry || !itemStr) {
+        if (now.getTime() > item.expiry) {
             // if the item doesn't exist, set null
             // If the item is expired, delete the item from storage
             // and return null
