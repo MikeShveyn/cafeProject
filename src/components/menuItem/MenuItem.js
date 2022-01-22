@@ -9,15 +9,15 @@ function MenuItem(props) {
       <Card>
         <Button
           label={props.editMode ? "Edit" : "Add"}
-          action={() => {
+          onClick={() => {
             props.handleClick();
           }}
         />
         <div className={css.flex}>
           {props.avaliable ? 
-            <img src="assets/imgs/default_table.jpg" alt="image" />
+            <img src={require("../../imgs/default_table.jpg")} alt="image" />
           :
-          <img src="assets/imgs/item.png" alt="image" />
+          <img src={require("../../imgs/item.png")} alt="image" />
             } 
           <p className={css.title}>{props.title}</p>
           <p className={css.descr}>{props.description}</p>

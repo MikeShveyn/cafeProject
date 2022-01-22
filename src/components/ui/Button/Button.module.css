@@ -7,10 +7,18 @@ button {
   border: 1px solid #77002e;
   border-radius: 4px;
   font-weight: bold;
+  font-size: 20px;
 }
 
 button:hover,
 button:active {
   background-color: #a50e48;
   border-color: #a50e48;
+}
+
+@media(max-width:786px){
+  button{
+    padding: 0.1rem 1rem;
+    font-size: 17px;
+  }
 }

@@ -1,9 +1,10 @@
 import MenuItem from "../menuItem/MenuItem";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import css from "./MenuList.module.css";
 import Select from "../ui/Select/Select";
 import CafeDialog from "../ui/Dialog/CafeDialog";
 import { updateMenuTableData } from "../../store/firebase";
+import DataContext from "../../store/data-context";
 
 const FilterType = [
   { id: 1, label: "Select Type", value: "none" },
@@ -23,6 +24,7 @@ function MenuList(props) {
   const [price, setPrice] = useState("none");
   const [currentMenuData, setCurrentMenuData] = useState(null);
   const [openDialog, setDialogOpen] = useState(false);
+  const context = useContext(DataContext);
 
   console.log(props);
 
@@ -36,8 +38,14 @@ function MenuList(props) {
 
   const handleEdit = (id, data) => {
     console.log(id, data);
-    setCurrentMenuData({ id: id, data: data });
-    setDialogOpen(true);
+    if(props.editMode) {
+      setCurrentMenuData({ id: id, data: data });
+      setDialogOpen(true);
+    }else{
+      context.addData({ id: id, data: data });
+    }
+  
+  
   };
 
   const handleDialogClose = () => {
