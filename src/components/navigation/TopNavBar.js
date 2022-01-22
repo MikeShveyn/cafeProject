@@ -16,7 +16,6 @@ function TopNavBar() {
   const [openDialog, setDialogOpen] = useState(false);
 
   const openCard = () => {
-    console.log('Open card' ,authCtx.data);
     setDialogOpen(true);
   };
 
@@ -27,7 +26,6 @@ function TopNavBar() {
 
 
   const onDialogSubmit = async (data) => {
-    console.log("dialog submit", data);
     try {
       await addOrder(data);
       setDialogOpen(false);

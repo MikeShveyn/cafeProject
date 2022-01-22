@@ -16,12 +16,15 @@ function Order() {
     return(
             <div className={classes.mainD} >
                 <img src={require('../../olam.jpeg')} alt="header" />
+                <div className={classes.content}>
                 <h1>Please, check where do you want to seat:</h1>
                 <div className={classes.optionDiv}>
                     <Button label={'Inside'} onClick={()=>ButtonHandler('Inside')}/>
                     <Button label={'Outside'} onClick={()=>ButtonHandler('Outside')}/>
                     <Button label={'Take away'} onClick={()=>ButtonHandler('TakeAway')}/>
                 </div>
+                </div>
+             
             </div>
     )
 }

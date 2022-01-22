@@ -35,7 +35,7 @@ p {
 .descr {
    width: 98%;
    height: 80px;
-   overflow: hidden;
+   overflow-y: scroll;
    text-align: center;
 }
 
