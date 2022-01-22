@@ -18,42 +18,36 @@ function PlaceOrder() {
   }, []);
 
   async function getItems() {
-      console.log(param);
     try {
       if(param === "TakeAway"){
         const cleanData = await getMenuTableData('menu');
-        console.log(cleanData);
         setLoadedMenu(cleanData);
       }
       else if(param === "Inside"){
         const cleanDataTables = await getMenuTableData('table');
-        console.log(cleanDataTables);
         setLoadedTables(cleanDataTables.filter((item)=>{
             return item.place === "in";
         }));
 
         const cleanData = await getMenuTableData('menu');
-        console.log(cleanData);
         setLoadedMenu(cleanData.filter((item)=>{
             return item.place === "in";
         }));
       }
       else if(param === "Outside"){
         const cleanDataTables = await getMenuTableData('table');
-        console.log(cleanDataTables);
         setLoadedTables(cleanDataTables.filter((item)=>{
             return item.place === "out";
         }));
 
         const cleanData = await getMenuTableData('menu');
-        console.log(cleanData);
         setLoadedMenu(cleanData.filter((item)=>{
             return item.place === "out";
         }));
       }  
        
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +57,7 @@ function PlaceOrder() {
     try{
       await getItems();
     }catch(err){
-      console.log(err);
+      console.error(err);
     }
 }
 

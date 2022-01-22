@@ -31,7 +31,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-
 export const createUser = async (name, email, password, type) => {
   try {
     const response = await createUserWithEmailAndPassword(
@@ -67,14 +66,14 @@ export const loginUser = async (email, password) => {
 
 export const getMenuTableData = async (type) => {
   let dbref;
-  if(type === 'menu'){
-     dbref =  ref(db, "menuItems");
-  }else if(type === 'table'){
-     dbref =  ref(db, "tables");
+  if (type === "menu") {
+    dbref = ref(db, "menuItems");
+  } else if (type === "table") {
+    dbref = ref(db, "tables");
   }
   return new Promise((resolve) => {
     onValue(
-       dbref,
+      dbref,
       (snapshot) => {
         if (snapshot.exists()) {
           resolve(cleanMenuData(snapshot.val()));
@@ -89,61 +88,73 @@ export const getMenuTableData = async (type) => {
   });
 };
 
+export const addOrder = async (order) => {
+  const dbref = ref(db, "orders");
+  const menuIds = order.data.menu.map(ord => {
+    return ord.id;
+  })
+  const json = {
+    name : order.name,
+    tableId : order.data.table.id? order.data.table.id : null,
+    menu : menuIds
+  };
 
+  const newOrderRef = push(dbref);
+  await set(newOrderRef, json);
+};
 
-
-export const addMenuTableItem = async (type,item) => {
+export const addMenuTableItem = async (type, item) => {
   let dbref;
   let json;
-  if(type === 'menu'){
-     dbref =  ref(db, "menuItems");
-     json = {
+  if (type === "menu") {
+    dbref = ref(db, "menuItems");
+    json = {
       title: item.title,
       image: item.image,
       price: item.price,
       descr: item.descr,
       type: item.type,
-      place: item.place
-     }
-  }else if(type === 'table'){
-     dbref =  ref(db, "tables");
-     json = {
+      place: item.place,
+    };
+  } else if (type === "table") {
+    dbref = ref(db, "tables");
+    json = {
       title: item.title,
       image: item.image,
       descr: item.descr,
       place: item.place,
-      avaliable : item.avaliable
-     }
+      avaliable: item.avaliable,
+    };
   }
   const menuListRef = dbref;
   const newMenuRef = push(menuListRef);
   await set(newMenuRef, json);
 };
 
-export const updateMenuTableData = async(type,id, item) => { 
+export const updateMenuTableData = async (type, id, item) => {
   let dbref;
   let json;
-  if(type === 'menu'){
-     dbref =  ref(db, "menuItems/" + id);
-     json = {
+  if (type === "menu") {
+    dbref = ref(db, "menuItems/" + id);
+    json = {
       title: item.title,
       image: item.image,
       price: item.price,
       descr: item.descr,
       type: item.type,
-      place: item.place
-     }
-  }else if(type === 'table'){
-     dbref =  ref(db, "tables/" + id);
-     json = {
+      place: item.place,
+    };
+  } else if (type === "table") {
+    dbref = ref(db, "tables/" + id);
+    json = {
       title: item.title,
       image: item.image,
       descr: item.descr,
       place: item.place,
-      avaliable : item.avaliable
-     }
+      avaliable: item.avaliable,
+    };
   }
-  await update(dbref, json)
+  await update(dbref, json);
 };
 
 function cleanMenuData(response) {

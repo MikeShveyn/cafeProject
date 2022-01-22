@@ -6,6 +6,8 @@ import AuthContext from "../../store/data-context";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button/Button";
 import CafeDialog from "../ui/Dialog/CafeDialog";
+import {addOrder} from "../../store/firebase";
+
 
 function TopNavBar() {
   const authCtx = useContext(AuthContext);
@@ -14,7 +16,7 @@ function TopNavBar() {
   const [openDialog, setDialogOpen] = useState(false);
 
   const openCard = () => {
-    console.log(authCtx.data);
+    console.log('Open card' ,authCtx.data);
     setDialogOpen(true);
   };
 
@@ -26,13 +28,12 @@ function TopNavBar() {
 
   const onDialogSubmit = async (data) => {
     console.log("dialog submit", data);
-    // try {
-    //   await updateMenuTableData(props.dataType, data.id, data.data);
-    //   setDialogOpen(false);
-    //   props.onEditSubmit();
-    // } catch (er) {
-    //   console.error(er);
-    // }
+    try {
+      await addOrder(data);
+      setDialogOpen(false);
+    } catch (er) {
+      console.error(er);
+    }
   };
 
   const logOutButtonHandler = () => {
@@ -74,7 +75,6 @@ function TopNavBar() {
               <div className="classes.welcome">
                 <p>
                   Hello, {authCtx.user.name}
-                  {console.log(authCtx.user.name)}
                 </p>
               </div>
             </li>
@@ -96,7 +96,7 @@ function TopNavBar() {
       <CafeDialog
         openDialog={openDialog}
         dataType={'card'}
-        menuData={authCtx.data}
+        menuData={{menu: authCtx.data, table :authCtx.table}}
         onDialogClose={() => handleDialogClose()}
         onDialogSubmit={onDialogSubmit}
       />
