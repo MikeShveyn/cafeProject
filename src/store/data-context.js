@@ -59,7 +59,7 @@ export const DataContextProvider=(props)=>{
         const ttl=600000 * 6;
         const item = JSON.stringify({
             token: token,
-            expiry: now.getTime() + 5000,
+            expiry: now.getTime() + ttl,
         });
         console.log(item);
         localStorage.setItem("token",item);
