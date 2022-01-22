@@ -37,20 +37,18 @@ function Auth() {
       let response = null;
       if (isLogin) {
          response =  await loginUser(enteredEmail, enteredPassword);
-         console.log(response);
       } else {
          const name = Username.current.value;
          response =  await createUser(name, enteredEmail, enteredPassword, userType);
       }
 
       if(response) {
-        console.log('response ', response);
         authcxt.addUserData(response.userData);
         authcxt.login(response.token);
         history("/");
       }
     }catch(error){
-      console.log(error.message)
+      console.error(error.message)
       alert(error.message);
       cleanFormValues();
       setIsLoading(false);
