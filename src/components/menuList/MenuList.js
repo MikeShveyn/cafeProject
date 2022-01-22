@@ -22,6 +22,7 @@ const FilterPrice = [
 function MenuList(props) {
   const [filter, setFilter] = useState("none");
   const [price, setPrice] = useState("none");
+  const [loading, setLoading] = useState(false);
   const [currentMenuData, setCurrentMenuData] = useState(null);
   const [openDialog, setDialogOpen] = useState(false);
   const context = useContext(DataContext);
@@ -39,6 +40,12 @@ function MenuList(props) {
       setCurrentMenuData({ id: id, data: data });
       setDialogOpen(true);
     }else{
+
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000); 
+      
       if(table){
         context.addTable({id:id, data: data});
       }else{
@@ -145,6 +152,9 @@ function MenuList(props) {
         onDialogClose={() => handleDialogClose()}
         onDialogSubmit={onDialogSubmit}
       />
+      <div className={loading && context.isLoggedIn ? css.lotte : css.none}>
+        <img src={require("../../imgs/coffee-maker.gif")}/>
+      </div>
     </React.Fragment>
   );
 }

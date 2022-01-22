@@ -73,3 +73,19 @@ li:active {
     }
 }
 
+
+.lotte {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+  }
+  
+  .lotte img {
+    width : 200px;
+  }
+  
+  .none {
+    display: none;
+  }

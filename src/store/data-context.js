@@ -25,12 +25,17 @@ export const DataContextProvider = (props) => {
   const [userState, setUser] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
-  const [token, settoken] = useState();
+  const [token, settoken] = useState(null);
   const userIsLoggedIn = !!token;
+
+
+  
   useEffect(() => {
-    settoken(CheckExpiry("token"));
-    if (token === null) {
+     const tempToken = CheckExpiry("token");
+    if (tempToken === null) {
       logOutHadler();
+    }else{
+      settoken(tempToken);
     }
   }, []);
 
@@ -90,19 +95,15 @@ export const DataContextProvider = (props) => {
   function CheckExpiry(key) {
     const itemStr = localStorage.getItem(key);
     if (!itemStr) {
-      logOutHadler();
       return null;
     }
     const item = JSON.parse(itemStr);
     const now = new Date();
     if (now.getTime() > item.expiry) {
-      // if the item doesn't exist, set null
-      // If the item is expired, delete the item from storage
-      // and return null
-      logOutHadler();
+  
       return null;
     }
-    return item.value;
+    return item.token;
   }
 
   const context = {
