@@ -20,12 +20,11 @@ function Tables() {
   async function getItems() {
     try {
       const cleanData = await getMenuTableData('table');
-      console.log(cleanData);
       setLoadedItems(cleanData);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
-      console.log(isAddMenuOpen);
+      console.error(isAddMenuOpen);
       setIsLoading(false);
     }
   }
@@ -33,11 +32,10 @@ function Tables() {
   async function addItemHandler(data) {
       try{
         await addMenuTableItem('table' ,data);
-        console.log("Sucess");
         setIsAddMenuOpen(false);
         await getItems();
       }catch(err){
-        console.log(err);
+        console.error(err);
       }
   }
 
@@ -45,7 +43,7 @@ function Tables() {
     try{
       await getItems();
     }catch(err){
-      console.log(err);
+      console.error(err);
     }
 }
 

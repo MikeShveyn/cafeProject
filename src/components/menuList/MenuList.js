@@ -26,8 +26,6 @@ function MenuList(props) {
   const [openDialog, setDialogOpen] = useState(false);
   const context = useContext(DataContext);
 
-  console.log(props);
-
   const handleFilter = (value) => {
     setFilter(value);
   };
@@ -36,16 +34,17 @@ function MenuList(props) {
     setPrice(value);
   };
 
-  const handleEdit = (id, data) => {
-    console.log(id, data);
+  const handleEdit = (id, data, table) => {
     if(props.editMode) {
       setCurrentMenuData({ id: id, data: data });
       setDialogOpen(true);
     }else{
-      context.addData({ id: id, data: data });
+      if(table){
+        context.addTable({id:id, data: data});
+      }else{
+        context.addData({ id: id , data: data });
+      }
     }
-  
-  
   };
 
   const handleDialogClose = () => {
@@ -53,7 +52,6 @@ function MenuList(props) {
   };
 
   const onDialogSubmit = async (data) => {
-    console.log("dialog submit", data);
     try {
       await updateMenuTableData(props.dataType, data.id, data.data);
       setDialogOpen(false);
@@ -109,7 +107,7 @@ function MenuList(props) {
                       descr: item.descr,
                       type: item.type,
                       place : item.place
-                    })
+                    },false)
                   }
                   editMode={props.editMode}
                 />
@@ -129,7 +127,8 @@ function MenuList(props) {
                       descr: item.descr,
                       place : item.place,
                       avaliable : item.avaliable
-                    })
+                    },
+                    true)
                   }
                   editMode={props.editMode}
                 />
